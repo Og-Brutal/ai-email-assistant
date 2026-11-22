@@ -1,0 +1,32 @@
+From: Client <client@corp.example>
+To: me@example.com
+Subject: Contract attached
+Date: Wed, 18 Nov 2026 14:30:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="MIXED"
+
+--MIXED
+Content-Type: multipart/alternative; boundary="ALT"
+
+--ALT
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Please review the contract. Caf=E9 meeting at 5pm.
+
+--ALT
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<p>Please review the contract. Caf=E9 meeting at 5pm.</p>
+
+--ALT--
+
+--MIXED
+Content-Type: application/pdf; name="contract.pdf"
+Content-Disposition: attachment; filename="contract.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjQKJcOkw7zDtsOfCg==
+
+--MIXED--
