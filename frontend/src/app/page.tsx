@@ -1,3 +1,4 @@
+import Link from "next/link";
 import BackendStatus from "@/components/BackendStatus";
 
 export default function Home() {
@@ -9,6 +10,12 @@ export default function Home() {
         with every send approved by you.
       </p>
       <BackendStatus />
+      <Link
+        href="/inbox"
+        className="rounded-md bg-blue-600 px-5 py-2.5 font-medium text-white hover:bg-blue-700"
+      >
+        Open inbox
+      </Link>
     </main>
   );
 }
