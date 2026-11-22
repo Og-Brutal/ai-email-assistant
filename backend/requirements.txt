@@ -1,0 +1,11 @@
+# Web framework
+fastapi
+uvicorn[standard]
+
+# Settings / env
+pydantic-settings
+python-dotenv
+
+# Testing
+pytest
+httpx
