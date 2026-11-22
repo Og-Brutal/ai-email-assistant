@@ -6,6 +6,23 @@ uvicorn[standard]
 pydantic-settings
 python-dotenv
 
+# Google OAuth + Gmail API
+google-auth
+google-auth-oauthlib
+google-api-python-client
+requests
+
+# Database (Neon Postgres)
+sqlalchemy
+psycopg[binary]
+
+# Security: token encryption + signed cookies
+cryptography
+itsdangerous
+
+# Email parsing (HTML -> text)
+beautifulsoup4
+
 # Testing
 pytest
 httpx
