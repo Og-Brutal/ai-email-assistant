@@ -20,8 +20,9 @@ psycopg[binary]
 cryptography
 itsdangerous
 
-# Email parsing (HTML -> text)
+# Email parsing (HTML -> text) + HTML sanitizing for display
 beautifulsoup4
+nh3
 
 # Testing
 pytest
