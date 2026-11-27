@@ -1,0 +1,21 @@
+From: Shop <shop@example.com>
+To: me@example.com
+Subject: Your receipt
+Date: Sat, 21 Nov 2026 10:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/related; boundary="REL"
+
+--REL
+Content-Type: text/html; charset="utf-8"
+
+<html><body><table width="600" style="background:#fff"><tr><td><img src="cid:logo@shop" alt="Logo"><p style="color:#333">Thanks for your order!</p></td></tr></table></body></html>
+
+--REL
+Content-Type: image/png
+Content-ID: <logo@shop>
+Content-Disposition: inline; filename="logo.png"
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==
+
+--REL--
