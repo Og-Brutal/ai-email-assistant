@@ -15,6 +15,7 @@ from email.utils import getaddresses, parsedate_to_datetime
 
 from bs4 import BeautifulSoup
 
+from app.gmail.html_sanitizer import embed_inline_images, sanitize_html
 from app.gmail.schemas import Attachment, ParsedEmail
 
 
@@ -133,6 +134,7 @@ def parse_mime(raw: bytes) -> ParsedEmail:
     plain_parts: list[str] = []
     html_parts: list[str] = []
     attachments: list[Attachment] = []
+    inline_images: dict[str, tuple[str, bytes]] = {}  # Content-ID -> (type, bytes)
 
     for part in msg.walk():
         if part.is_multipart():
@@ -140,8 +142,12 @@ def parse_mime(raw: bytes) -> ParsedEmail:
         ctype = part.get_content_type()
         disposition = part.get_content_disposition()  # "attachment" / "inline" / None
         filename = part.get_filename()
+        content_id = str(part.get("Content-ID", "")).strip().strip("<>")
 
-        if disposition == "attachment" or (filename and ctype not in ("text/plain", "text/html")):
+        # Images referenced from the HTML (src="cid:...") belong in the body, like Gmail.
+        if content_id and ctype.startswith("image/") and disposition != "attachment":
+            inline_images[content_id] = (ctype, part.get_payload(decode=True) or b"")
+        elif disposition == "attachment" or (filename and ctype not in ("text/plain", "text/html")):
             payload = part.get_payload(decode=True) or b""
             attachments.append(
                 Attachment(filename=filename or "unnamed", mime_type=ctype, size=len(payload))
@@ -157,6 +163,11 @@ def parse_mime(raw: bytes) -> ParsedEmail:
         body = html_to_text("\n".join(html_parts))
     else:
         body = ""
+
+    # Safe HTML for Gmail-style display (rendered in a sandboxed iframe by the frontend).
+    body_html = ""
+    if html_parts:
+        body_html = sanitize_html(embed_inline_images("\n".join(html_parts), inline_images))
 
     # For HTML-only mail we keep the gmail_quote marker for stripping, then remove it.
     body_clean = strip_quotes_and_signature(body)
@@ -181,6 +192,7 @@ def parse_mime(raw: bytes) -> ParsedEmail:
         message_id_header=str(msg["Message-ID"] or ""),
         body_text=body,
         body_clean=body_clean,
+        body_html=body_html,
         has_html=bool(html_parts),
         attachments=attachments,
     )
