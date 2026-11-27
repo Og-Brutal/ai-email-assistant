@@ -27,6 +27,7 @@ class ParsedEmail(BaseModel):
 
     body_text: str = ""  # full plain text (HTML converted if needed)
     body_clean: str = ""  # quoted history + signature removed
+    body_html: str = ""  # SANITIZED html for display ("" for plain-text emails)
     has_html: bool = False
     attachments: list[Attachment] = Field(default_factory=list)
 
