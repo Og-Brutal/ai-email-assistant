@@ -63,6 +63,7 @@ export type ParsedEmail = {
   date: string | null;
   body_text: string;
   body_clean: string;
+  body_html: string; // sanitized by backend; "" for plain-text emails
   has_html: boolean;
   attachments: Attachment[];
 };
